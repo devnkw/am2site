@@ -1,0 +1,10 @@
+# Normaliza quebras de linha: LF no repositorio (a hospedagem e Linux)
+* text=auto eol=lf
+
+# Binarios: nunca converter
+*.webp binary
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.ico  binary
+*.pdf  binary
