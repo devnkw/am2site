@@ -677,6 +677,10 @@ section {
 
 /* ---------- CONDIÇÕES DE PAGAMENTO (bullets) ---------- */
 .pagamento-secao { background: var(--am2-grafite-escuro); color: var(--am2-branco); }
+/* A secao tem fundo escuro, entao titulo e subtitulo precisam inverter a cor:
+   sem isso o h2 herda o grafite padrao e some no fundo. */
+.pagamento-secao h2 { color: var(--am2-branco); }
+.pagamento-secao .titulo-secao p { color: rgba(255,255,255,0.78); }
 .pagamento-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
