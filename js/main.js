@@ -12,7 +12,11 @@
     hero: 'Olá! Vim pela página de energia solar e quero falar com um engenheiro.',
     flutuante: 'Olá! Vim pela página de energia solar e quero falar com um engenheiro.',
     cta_final: 'Olá! Vim pela página de energia solar e quero falar com um engenheiro.',
-    lead_pequeno: 'Olá! Vim pela página de energia solar e queria entender qual a melhor opção para o meu perfil.'
+    lead_pequeno: 'Olá! Vim pela página de energia solar e queria entender qual a melhor opção para o meu perfil.',
+    // Landing page de projetos de engenharia eletrica (projetos-eletricos.html)
+    hero_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
+    flutuante_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
+    cta_final_projetos: 'Olá! Vim pela página de projetos elétricos e quero orçar um projeto.'
   };
 
   const prefereReducirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -229,6 +233,13 @@
   function iniciarCalculadora() {
     const campoConta = document.getElementById('campo-conta');
     const btnCalcular = document.getElementById('btn-calcular');
+
+    // main.js e compartilhado por todas as landing pages da AM2. Paginas
+    // sem calculadora (projetos, laudos) nao tem esses elementos no DOM;
+    // sem essa guarda, o restante do DOMContentLoaded (FAQ, formulario)
+    // nunca rodaria, porque o erro interromperia a funcao inteira.
+    if (!campoConta || !btnCalcular) return;
+
     const grupoOperacao = document.querySelectorAll('[data-campo="tipoOperacao"]');
     const grupoLigacao = document.querySelectorAll('[data-campo="tipoLigacao"]');
 
