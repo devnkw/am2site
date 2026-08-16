@@ -5,7 +5,7 @@
   // equipe por e-mail. O codigo do receptor esta em integracao/apps-script.gs,
   // com o passo a passo de instalacao. Cole aqui a URL que o Apps Script
   // devolve ao implantar (termina em /exec).
-  const WEBHOOK_URL = 'COLAR_URL_DO_APPS_SCRIPT_AQUI';
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyRoijKs4MKnrBV2IfSqmZ3b5_qcSVzN8KZyYmSzFcgqklbRzcLCM-jVBZRihlP9v143w/exec';
 
   const WHATSAPP_NUMERO = '5562998751035';
   const MENSAGENS_WHATSAPP = {
