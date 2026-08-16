@@ -16,7 +16,11 @@
     // Landing page de projetos de engenharia eletrica (projetos-eletricos.html)
     hero_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
     flutuante_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
-    cta_final_projetos: 'Olá! Vim pela página de projetos elétricos e quero orçar um projeto.'
+    cta_final_projetos: 'Olá! Vim pela página de projetos elétricos e quero orçar um projeto.',
+    // Landing page de laudos eletricos e inspecao (laudos-eletricos.html)
+    hero_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.',
+    flutuante_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.',
+    cta_final_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.'
   };
 
   const prefereReducirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
