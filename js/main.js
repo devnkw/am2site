@@ -1,8 +1,11 @@
 (function () {
   'use strict';
 
-  // COLAR A URL DO WEBHOOK DO MAKE AQUI ANTES DE PUBLICAR
-  const WEBHOOK_URL = 'COLAR_URL_DO_WEBHOOK_MAKE_AQUI';
+  // Endpoint que recebe os leads: grava na planilha do Google e avisa a
+  // equipe por e-mail. O codigo do receptor esta em integracao/apps-script.gs,
+  // com o passo a passo de instalacao. Cole aqui a URL que o Apps Script
+  // devolve ao implantar (termina em /exec).
+  const WEBHOOK_URL = 'COLAR_URL_DO_APPS_SCRIPT_AQUI';
 
   const WHATSAPP_NUMERO = '5562998751035';
   const MENSAGENS_WHATSAPP = {
@@ -85,11 +88,39 @@
   function enviarWebhook(payload) {
     return fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      // text/plain de proposito: com application/json o navegador dispara uma
+      // requisicao de preflight (OPTIONS), que o Apps Script nao responde, e o
+      // envio falha por CORS. Como text/plain, vira requisicao simples e passa.
+      // O Apps Script faz JSON.parse do corpo do mesmo jeito.
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     }).then(function (r) {
       if (!r.ok) throw new Error('Falha no envio');
       return r;
+    });
+  }
+
+  // Le o arquivo escolhido e devolve em base64, para viajar dentro do JSON.
+  var TAMANHO_MAX_ANEXO = 10 * 1024 * 1024; // 10 MB, igual ao que o formulario promete
+
+  function lerArquivoBase64(arquivo) {
+    return new Promise(function (resolve, reject) {
+      if (arquivo.size > TAMANHO_MAX_ANEXO) {
+        reject(new Error('arquivo maior que 10 MB'));
+        return;
+      }
+      var leitor = new FileReader();
+      leitor.onload = function () {
+        // O resultado vem como data:<tipo>;base64,<conteudo>; mandamos so o conteudo.
+        var partes = String(leitor.result).split(',');
+        resolve({
+          nome: arquivo.name,
+          tipo: arquivo.type || 'application/octet-stream',
+          conteudo: partes[1] || ''
+        });
+      };
+      leitor.onerror = function () { reject(new Error('falha ao ler o arquivo')); };
+      leitor.readAsDataURL(arquivo);
     });
   }
 
@@ -410,16 +441,29 @@
       btnEnviar.textContent = 'Enviando...';
 
       const anexoInput = document.getElementById('campo-anexo');
-      const anexou = !!(anexoInput && anexoInput.files && anexoInput.files.length > 0);
+      const arquivo = anexoInput && anexoInput.files && anexoInput.files[0];
       const resultado = window.__am2ResultadoAtual;
       const contato = window.__am2Contato || {};
+
+      // Se a pessoa anexou a conta, converte para base64 antes de enviar.
+      // Se a leitura falhar (arquivo grande demais, por exemplo), seguimos
+      // com o envio sem o anexo: o lead vale mais que o arquivo.
+      let anexo = null;
+      if (arquivo) {
+        try {
+          anexo = await lerArquivoBase64(arquivo);
+        } catch (e) {
+          anexo = null;
+        }
+      }
 
       const payload = montarPayloadLead(resultado, contato, {
         empresa: form.empresa.value.trim(),
         cidade: form.cidade.value.trim(),
-        anexou: anexou,
+        anexou: !!anexo,
         etapa: 'estudo'
       });
+      if (anexo) payload.anexo = anexo;
 
       try {
         await enviarWebhook(payload);
@@ -427,7 +471,7 @@
         push({
           event: 'conta_enviada',
           cidade: payload.cidade,
-          anexou_conta: anexou
+          anexou_conta: !!anexo
         });
 
         form.classList.add('oculto');

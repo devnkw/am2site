@@ -300,9 +300,11 @@ section {
   color: rgba(255,255,255,0.55);
   margin-bottom: 28px;
 }
+/* 21 logos. Só 3 e 7 dividem 21 em linhas exatas, então o grid alterna
+   entre 7 colunas (3 linhas) e 3 colunas (7 linhas), sem sobra na última. */
 .clientes-logo-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 12px;
 }
 .clientes-logo-card {
@@ -325,7 +327,7 @@ section {
 }
 
 @media (max-width: 900px) {
-  .clientes-logo-grid { grid-template-columns: repeat(4, 1fr); }
+  .clientes-logo-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 560px) {
   .clientes-logo-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }

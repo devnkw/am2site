@@ -43,19 +43,48 @@ comentários indicando o que é estimativa e o que precisa de dado real:
 Nenhuma outra parte do código precisa ser tocada para recalibrar os números:
 o cálculo inteiro depende apenas desse objeto.
 
-### 2. `js/main.js` — endpoint do webhook
+### 2. Integração dos leads (planilha + e-mail)
 
-No topo do arquivo:
+Os leads vão para a planilha do Google e disparam um e-mail para
+`projetos@am2engenharia.com`. Quem faz isso é um Google Apps Script, que
+roda de graça na conta do Google da AM2 e dispensa Make, Zapier ou
+qualquer serviço pago.
+
+O código está em [`integracao/apps-script.gs`](integracao/apps-script.gs),
+com o passo a passo comentado no topo do arquivo. Resumo:
+
+1. Abrir a planilha de leads > menu **Extensões > Apps Script**.
+2. Colar o conteúdo de `integracao/apps-script.gs` e salvar.
+3. **Implantar > Nova implantação > Aplicativo da Web**, com
+   *Executar como:* a sua conta e *Quem pode acessar:* **Qualquer pessoa**.
+4. Copiar a URL gerada (termina em `/exec`).
+5. Colar essa URL no topo do `js/main.js`, na constante `WEBHOOK_URL`.
 
 ```javascript
-const WEBHOOK_URL = 'COLAR_URL_DO_WEBHOOK_MAKE_AQUI';
+const WEBHOOK_URL = 'COLAR_URL_DO_APPS_SCRIPT_AQUI';
 ```
 
-Colar a URL do cenário do Make (ou outro endpoint) que recebe o lead via
-`POST` com corpo em JSON.
+Enquanto essa URL não for preenchida, a página continua calculando
+normalmente, mas o lead não é gravado nem enviado por e-mail.
+
+**Como o lead chega:** a página envia duas vezes, e o campo `etapa`
+distingue os momentos. Em `etapa: "calculadora"` (quando a pessoa deixa
+nome, WhatsApp e e-mail para ver o resultado) o script grava a linha na
+planilha e avisa a equipe. Em `etapa: "estudo"` (quando a mesma pessoa
+envia a conta de luz depois) ele apenas manda um segundo e-mail com o
+arquivo anexado, sem duplicar a linha.
+
+A coluna `serviço` da planilha é preenchida pela constante `SERVICO` do
+Apps Script. As outras duas landing pages (Projetos e Laudos) podem usar o
+mesmo script com um valor diferente ali, para tudo cair na mesma planilha
+já separado por origem.
+
+O envio usa `Content-Type: text/plain` de propósito: com `application/json`
+o navegador dispara uma requisição de preflight que o Apps Script não
+responde, e o lead falharia por CORS.
 
 O número de WhatsApp e as mensagens pré-preenchidas por origem também ficam
-no topo desse arquivo, nas constantes `WHATSAPP_NUMERO` e
+no topo do `js/main.js`, nas constantes `WHATSAPP_NUMERO` e
 `MENSAGENS_WHATSAPP`.
 
 ### Fluxo de captura do lead (importante)
@@ -147,7 +176,8 @@ peso da página dentro do orçamento de performance.
 
 - [ ] `CONFIG` calibrado com tarifa real, custo por kWp real e taxa de
       financiamento real
-- [ ] `WEBHOOK_URL` preenchida e testada (lead de teste chegando no Make)
+- [ ] Apps Script implantado e `WEBHOOK_URL` preenchida, com lead de teste
+      chegando na planilha e no e-mail
 - [ ] Eventos do dataLayer verificados no modo de visualização do GTM
 - [ ] Pixel da Meta mapeado ao evento `lead_enviado`
 - [ ] Teste da calculadora em pelo menos 5 cenários, incluindo os extremos
