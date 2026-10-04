@@ -17,10 +17,10 @@
     hero_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
     flutuante_projetos: 'Olá! Vim pela página de projetos elétricos e quero falar com um engenheiro.',
     cta_final_projetos: 'Olá! Vim pela página de projetos elétricos e quero orçar um projeto.',
-    // Landing page de laudos eletricos e inspecao (laudos-eletricos.html)
-    hero_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.',
-    flutuante_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.',
-    cta_final_laudos: 'Olá! Vim pela página de laudos elétricos e quero solicitar um laudo.'
+    // Landing page de inspecao predial eletrica (laudos-eletricos.html)
+    hero_laudos: 'Olá! Vim pela página de inspeção predial elétrica e quero uma proposta de inspeção para um edifício.',
+    flutuante_laudos: 'Olá! Vim pela página de inspeção predial elétrica e quero falar com um engenheiro.',
+    cta_final_laudos: 'Olá! Vim pela página de inspeção predial elétrica e quero uma proposta de inspeção para um edifício.'
   };
 
   const prefereReducirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -812,6 +812,7 @@ section {
 }
 .portfolio-card img {
   width: 100%;
+  height: auto; /* sem isso, o atributo height do <img> anula o aspect-ratio */
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
@@ -1091,4 +1092,112 @@ section {
 }
 @media (prefers-reduced-motion: reduce) {
   .entrada-suave { animation: none; }
+}
+
+/* ==========================================================
+   LANDING PAGE DE LAUDOS (laudos-eletricos.html)
+   So os componentes que nao existiam; o resto reaproveita
+   pontos-grid, portfolio-card, destaque-projeto e etapas.
+   ========================================================== */
+
+/* Legenda da foto do hero: identifica o projeto real mostrado */
+.hero-imagem figure { margin: 0; }
+.hero-legenda {
+  display: block;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,255,255,0.10);
+}
+.hero-legenda strong { color: var(--am2-branco); font-family: var(--fonte-display); font-weight: 600; }
+
+/* Escopo: foto real de um lado, checklist dos sistemas do outro */
+.escopo-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+  align-items: center;
+}
+.escopo-foto {
+  margin: 0;
+  border-radius: var(--raio);
+  overflow: hidden;
+  border: 1px solid var(--am2-borda);
+  line-height: 0;
+}
+.escopo-foto img { width: 100%; height: auto; }
+.escopo-foto figcaption {
+  line-height: 1.45;
+  font-size: 13px;
+  color: var(--am2-cinza);
+  padding: 10px 14px;
+  background: var(--am2-branco);
+}
+.checklist {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 28px;
+}
+.checklist li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--am2-grafite-2);
+}
+.checklist li svg { flex-shrink: 0; margin-top: 2px; color: var(--am2-ambar); }
+.checklist li strong { display: block; color: var(--am2-grafite); font-family: var(--fonte-display); font-weight: 600; font-size: 15px; }
+@media (max-width: 860px) {
+  .escopo-grid { grid-template-columns: 1fr; gap: 32px; }
+  .escopo-foto { max-width: 420px; margin: 0 auto; }
+}
+@media (max-width: 560px) {
+  .checklist { grid-template-columns: 1fr; }
+}
+
+/* Faixa de normas tecnicas */
+.normas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.norma {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--raio);
+  padding: 18px 20px;
+}
+.norma-codigo {
+  display: block;
+  font-family: var(--fonte-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--am2-ambar);
+  margin-bottom: 4px;
+}
+.norma p { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.78); }
+@media (max-width: 860px) {
+  .normas-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .normas-grid { grid-template-columns: 1fr; }
+}
+
+/* Variacoes de grids existentes */
+.portfolio-grid.grid-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .portfolio-grid.grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .portfolio-grid.grid-3 { grid-template-columns: 1fr; } }
+.reviews-grid.grid-unico { grid-template-columns: 1fr; max-width: 680px; margin: 0 auto; }
+.ponto-card .publico-tag {
+  display: inline-block;
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8A6508;
+  margin-bottom: 6px;
 }
