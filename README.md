@@ -164,6 +164,15 @@ A faixa de clientes ("Também assinamos projetos elétricos para...") usa
 nomes em texto (wordmarks tipográficos), não logos em imagem, para manter o
 peso da página dentro do orçamento de performance.
 
+## Cache de CSS e JS
+
+A Hostinger serve `css/` e `js/` com cache de 7 dias no navegador, e o HTML
+sem cache. Por isso os links nas três páginas levam versão, por exemplo
+`css/style.css?v=20261003`. **Sempre que alterar o CSS ou o JS, troque esse
+número nas três páginas** (`index.html`, `projetos-eletricos.html` e
+`laudos-eletricos.html`). Sem isso, quem já visitou o site vê o HTML novo com o
+CSS antigo por até uma semana.
+
 ## Deploy (Hostinger via Git)
 
 1. Repositório conectado em hPanel > Websites > Dashboard > Advanced > Git.
