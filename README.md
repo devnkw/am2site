@@ -168,7 +168,7 @@ peso da página dentro do orçamento de performance.
 
 A Hostinger serve `css/` e `js/` com cache de 7 dias no navegador, e o HTML
 sem cache. Por isso os links nas três páginas levam versão, por exemplo
-`css/style.css?v=20261003`. **Sempre que alterar o CSS ou o JS, troque esse
+`css/style.css?v=20261010`. **Sempre que alterar o CSS ou o JS, troque esse
 número nas três páginas** (`index.html`, `projetos-eletricos.html` e
 `laudos-eletricos.html`). Sem isso, quem já visitou o site vê o HTML novo com o
 CSS antigo por até uma semana.
